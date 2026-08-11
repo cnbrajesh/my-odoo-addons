@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="blog_category_template" name="Blog Category Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_cover parallax s_parallax_is_fixed bg-black-50 pt-32 pb-32" data-scroll-background-ratio="1">
+                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_cover_default_image'); background-position: 50% 50%;"/>
+                    <div class="s_cover_content container d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-12 col-lg-8">
+                                <h1 class="display-3 text-white">
+                                    <t t-if="current_category">
+                                        <t t-esc="current_category.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        All Blog Posts
+                                    </t>
+                                </h1>
+                                <p class="lead text-white">
+                                    <t t-if="current_category">
+                                        Browse all posts in this category
+                                    </t>
+                                    <t t-else="">
+                                        Browse all published blog posts
+                                    </t>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="s_text_block pt40 pb40">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Category Buttons -->
+                            <div class="col-lg-3 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Categories</strong>
+                                    </div>
+                                    <div class="list-group list-group-flush">
+                                        <a t-foreach="categories" t-as="category" 
+                                           t-att-href="'/blog-category/%s' % category.slug"
+                                           class="list-group-item list-group-item-action"
+                                           t-att-class="'active' if current_category and current_category.id == category.id else ''">
+                                            <t t-esc="category.name"/>
+                                        </a>
+                                        <a href="/blog-category" 
+                                           class="list-group-item list-group-item-action"
+                                           t-att-class="'active' if not current_category else ''">
+                                            All Posts
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Blog Post Cards -->
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <t t-if="blog_posts">
+                                        <t t-foreach="blog_posts" t-as="post">
+                                            <div class="col-lg-4 mb-4">
+                                                <div class="card h-100">
+                                                    <t t-if="post.cover_image">
+                                                        <img t-att-src="post.cover_image" class="card-img-top" t-att-alt="post.name" style="height: 200px; object-fit: cover;"/>
+                                                    </t>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">
+                                                            <a t-att-href="post.website_url" class="text-decoration-none">
+                                                                <t t-esc="post.name"/>
+                                                            </a>
+                                                        </h5>
+                                                        <p class="card-text text-muted">
+                                                            <t t-esc="post.subtitle or ''"/>
+                                                        </p>
+                                                        <t t-if="post.category_id">
+                                                            <span class="badge bg-primary mb-2">
+                                                                <t t-esc="post.category_id.name"/>
+                                                            </span>
+                                                        </t>
+                                                        <p class="card-text">
+                                                            <small class="text-muted">
+                                                                By <t t-esc="post.author_id.name or 'Author'/> | 
+                                                                <t t-esc="post.write_date.strftime('%B %d, %Y')"/>
+                                                            </small>
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-footer bg-transparent border-top-0">
+                                                        <a t-att-href="post.website_url" class="btn btn-primary btn-sm">Read More</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="col-12">
+                                            <div class="alert alert-info">
+                                                No blog posts found.
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>
