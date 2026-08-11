@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Blog Category Form View Extension -->
+    <record id="view_blog_category_form_extended" model="ir.ui.view">
+        <field name="name">blog.category.form.extended</field>
+        <field name="model">blog.category</field>
+        <field name="inherit_id" ref="website_blog.blog_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="SEO Settings">
+                    <field name="meta_title"/>
+                    <field name="meta_description"/>
+                    <field name="meta_keywords"/>
+                </group>
+                <group string="Additional Information">
+                    <field name="description"/>
+                    <field name="color" widget="color_picker"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Blog Category Tree View Extension -->
+    <record id="view_blog_category_tree_extended" model="ir.ui.view">
+        <field name="name">blog.category.tree.extended</field>
+        <field name="model">blog.category</field>
+        <field name="inherit_id" ref="website_blog.blog_category_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="description" optional="show"/>
+                <field name="meta_title" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action to open Blog Categories -->
+    <record id="action_blog_category_manager" model="ir.actions.act_window">
+        <field name="name">Blog Categories</field>
+        <field name="res_model">blog.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first blog category
+            </p>
+            <p>
+                Organize your blog posts with categories for better navigation and SEO.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_blog_category_manager"
+              name="Categories"
+              parent="website_blog.menu_blog_configuration"
+              action="action_blog_category_manager"
+              sequence="10"/>
+</odoo>
