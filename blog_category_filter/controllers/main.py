@@ -2,10 +2,9 @@
 
 from odoo import http
 from odoo.http import request
-from odoo.addons.website_blog.controllers.main import Blog
 
 
-class BlogCategoryController(Blog):
+class BlogCategoryController(http.Controller):
 
     @http.route(['/blog-category'], type='http', auth='public', website=True, sitemap=True)
     def blog_category_index(self, **post):
